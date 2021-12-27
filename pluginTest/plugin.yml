@@ -1,0 +1,104 @@
+name: pluginTest
+main : pluginTest.Main
+version: 1.00
+description: Un plugin de test
+author: Zaneriis
+api-version: 1.15
+
+commands:
+  bank:
+    description: Commandes relatives aux Bank
+    usage: /bank
+    permission: plugintest.bank
+  bank add:
+    description: Creer un coffre de Banque
+    usage: /bank add
+    permission: plugintest.bank.add
+  bank remove:
+    description: Supprime un coffre de Banque
+    usage: /bank remove
+    permission: plugintest.bank.remove
+  moneyBag:
+    description: Supprime un coffre de Banque
+    usage: /moneyBag [Amount] [Player]
+    permission: plugintest.moneyBag.give
+  cite:
+    description: Commandes relatives aux cite
+    usage: /cite
+    permission: plugintest.cite
+  cite team:
+    description: Commandes relatives aux team
+    usage: /cite team
+    permission: plugintest.cite.team
+  cite team create:
+    description: Permet de creer une equipe
+    usage: /cite team create [Couleur]
+    permission: plugintest.cite.team.create
+  cite team delete:
+    description: Permet de supprimer une equipe
+    usage: /cite team delete [Equipe]
+    permission: plugintest.cite.team.delete
+  cite team add:
+    description: Permet d'ajouter un joueur a une equipe
+    usage: /cite team add [Equipe] [Joueur]
+    permission: plugintest.cite.team.add
+  cite team remove:
+    description: Permet de supprimer un joueur de son equipe
+    usage: /cite team remove [Joueur]
+    permission: plugintest.cite.team.remove
+  cite team info:
+    description: Permet d'avoir les infos d'une equipe
+    usage: /cite team info
+    permission: plugintest.cite.team.info
+    
+permissions:
+  plugintest.bank:
+    description: Utiliser le /bank
+    usage: /bank {add,remove}
+    default: op
+    children:
+      plugintest.bank.add: true
+      plugintest.bank.remove: true
+  plugintest.bank.add:
+    description: Utiliser le /bank add
+    usage: /bank add
+    default: op
+  plugintest.bank.remove:
+    description: Utiliser le /bank remove
+    usage: /bank remove
+    default: op
+  plugintest.moneyBag.give:
+    description: Utiliser le /moneybag
+    usage: /moneybag
+    default: op
+  plugintest.cite:
+    description: Utiliser le /cite
+    usage: /cite
+    default: op
+    children: 
+      plugintest.cite.team: true
+  plugintest.cite.team:
+    description: utiliser le /cite team
+    usage: /cite team
+    default: op
+  plugintest.cite.create:
+    description: utiliser le /cite create
+    usage: /cite create [Couleur]
+    default: op
+  plugintest.cite.delete:
+    description: utiliser le /cite delete
+    usage: /cite delete [Couleur]
+    default: op
+  plugintest.cite.add:
+    description: utiliser le /cite add 
+    usage: /cite add [Couleur] [Joueur]
+    default: op
+  plugintest.cite.remove:
+    description: utiliser le /cite remove 
+    usage: /cite remove [Joueur]
+    default: op
+  plugintest.cite.info:
+    description: utiliser le /cite info 
+    usage: /cite info [Equipe]
+    default: op
+      
