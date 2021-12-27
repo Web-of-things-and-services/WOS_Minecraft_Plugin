@@ -1,0 +1,20 @@
+name: WOS
+version: '${project.version}'
+main: iti5.wos.WOS
+api-version: 1.17
+authors: [ Fuentes, MeloDaSilva, Pacary, Vigneron ]
+description: Client minecraft pour joueur au puissance sur un serveur externe
+
+commands:
+  wos:
+    description: Commande relative au puissance4 wos
+    usage: /wos
+    permission: wos.puissance.commun
+  wos play:
+    description: Permet de rejoindre une parti non lancé
+    usage: /wos play
+    permission: wos.puissance.connect
+  wos move:
+    description: Permet de jouer un coup
+    usage: /wos move
+    permission: wos.puissance.move
