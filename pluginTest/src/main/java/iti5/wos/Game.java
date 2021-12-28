@@ -47,6 +47,7 @@ public class Game {
             return false;
         this.joueur = player;
         this.initPlayer(player);
+        board.renderStaticElements();
         return true;
     }
 

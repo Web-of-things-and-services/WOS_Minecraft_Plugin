@@ -35,34 +35,55 @@ public class WosSocket {
             }
         });
 
-        
-        socket.on("init_game", new Emitter.Listener(){
+
+        socket.on("game_status", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : init_game");
+                System.out.println("[Puissance 4] [Received] : game_status");
+
+                // TODO reçois le status de la partie
+
+            }
+        });
+
+        
+        socket.on("start_game", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : start_game");
+
+                // TODO y a des choses passés en param mais ils servent à R ?
+
+            }
+        });
+
+        socket.on("start_game_error", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : start_game_error");
 
                 // TODO y a des choses passés en param mais ils servent à R ?
 
             }
         });
         
-        socket.on("init_game_after_reset", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : init_game_after_reset");
-                try {
-                    JSONParser parser = new JSONParser();
-                    JSONArray jsonBoard = (JSONArray) parser.parse(args[0].toString()); // le json représentant le tableau
-                    String nextPlayer = args[1].toString(); // le nom du prochain joueur
-                    System.out.println("[Puissance 4] board : " + jsonBoard + ", nextPlayer : " + nextPlayer);
+        // socket.on("init_game_after_reset", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : init_game_after_reset");
+        //         try {
+        //             JSONParser parser = new JSONParser();
+        //             JSONArray jsonBoard = (JSONArray) parser.parse(args[0].toString()); // le json représentant le tableau
+        //             String nextPlayer = args[1].toString(); // le nom du prochain joueur
+        //             System.out.println("[Puissance 4] board : " + jsonBoard + ", nextPlayer : " + nextPlayer);
 
-                    // TODO jsonBoard nextPlayer
+        //             // TODO jsonBoard nextPlayer
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        //         } catch (Exception e) {
+        //             e.printStackTrace();
+        //         }
+        //     }
+        // });
         
         socket.on("connect_player", new Emitter.Listener(){
             @Override
@@ -76,10 +97,10 @@ public class WosSocket {
             }
         });
         
-        socket.on("display_turn_player", new Emitter.Listener(){
+        socket.on("waiting_move", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : display_turn_player");
+                System.out.println("[Puissance 4] [Received] : waiting_move");
                 String playerName = args[0].toString();
                 System.out.println("[Puissance 4] name : " + playerName);
 
@@ -87,35 +108,15 @@ public class WosSocket {
 
             }
         });
-        
-        socket.on("connect_player_without_start", new Emitter.Listener(){
+
+        socket.on("end_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : connect_player_without_start");
-
-                // TODO
-
-            }
-        });
-        
-        socket.on("nobody_win", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : nobody_win");
-
-                // TODO
-
-            }
-        });
-
-        socket.on("win", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : win");
+                System.out.println("[Puissance 4] [Received] : end_game");
                 String winnerName = args[0].toString();
                 System.out.println("[Puissance 4] Winner : " + winnerName);
 
-                // TODO winnerName
+                // TODO winnerName (peut etre "nobody")
 
             }
         });
@@ -132,20 +133,20 @@ public class WosSocket {
             }
         });
         
-        socket.on("missing_player", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : missing_player");
-
-                // TODO
-
-            }
-        });
-        
         socket.on("disconnected_player", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
                 System.out.println("[Puissance 4] [Received] : disconnected_player");
+
+                // TODO (pareil y a des params passés jsp sil tu ten serviras) 
+
+            }
+        });
+
+        socket.on("stop_game", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : stop_game");
 
                 // TODO (pareil y a des params passés jsp sil tu ten serviras) 
 
@@ -163,13 +164,6 @@ public class WosSocket {
         //     @Override
         //     public void call(Object... args) {
         //         System.out.println("[Puissance 4] [Received] : " + "start_game");
-        //     }
-        // });
-
-        // socket.on("end_game", new Emitter.Listener(){
-        //     @Override
-        //     public void call(Object... args) {
-        //         System.out.println("[Puissance 4] [Received] : " + "end_game");
         //     }
         // });
 
