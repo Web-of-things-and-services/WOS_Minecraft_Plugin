@@ -6,6 +6,7 @@ import io.socket.emitter.Emitter;
 
 import java.net.URISyntaxException;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
 public class WosSocket {
@@ -18,7 +19,7 @@ public class WosSocket {
         socket.on("new_move", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : new_move");
+                System.out.println("[Puissance 4] [Received] : new_move");
                 String data = args[0].toString();
                 try {
                     JSONParser parser = new JSONParser();
@@ -34,68 +35,185 @@ public class WosSocket {
             }
         });
 
-        socket.on("waiting_move", new Emitter.Listener(){
+        
+        socket.on("init_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : waiting_move");
+                System.out.println("[Puissance 4] [Received] : init_game");
+
+                // TODO y a des choses passés en param mais ils servent à R ?
+
+            }
+        });
+        
+        socket.on("init_game_after_reset", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : init_game_after_reset");
+                try {
+                    JSONParser parser = new JSONParser();
+                    JSONArray jsonBoard = (JSONArray) parser.parse(args[0].toString()); // le json représentant le tableau
+                    String nextPlayer = args[1].toString(); // le nom du prochain joueur
+                    System.out.println("[Puissance 4] board : " + jsonBoard + ", nextPlayer : " + nextPlayer);
+
+                    // TODO jsonBoard nextPlayer
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        socket.on("connect_player", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : connect_player");
+                String playerName = args[0].toString();
+                System.out.println("[Puissance 4] name : " + playerName);
+
+                // TODO playerName
+
+            }
+        });
+        
+        socket.on("display_turn_player", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : display_turn_player");
+                String playerName = args[0].toString();
+                System.out.println("[Puissance 4] name : " + playerName);
+
+                // TODO playerName
+
+            }
+        });
+        
+        socket.on("connect_player_without_start", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : connect_player_without_start");
+
+                // TODO
+
+            }
+        });
+        
+        socket.on("nobody_win", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : nobody_win");
+
+                // TODO
+
             }
         });
 
-        socket.on("start_game", new Emitter.Listener(){
+        socket.on("win", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : " + "start_game");
+                System.out.println("[Puissance 4] [Received] : win");
+                String winnerName = args[0].toString();
+                System.out.println("[Puissance 4] Winner : " + winnerName);
+
+                // TODO winnerName
+
+            }
+        });
+        
+        socket.on("bad_player", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : bad_player");
+                String badPlayerName = args[0].toString();
+                System.out.println("[Puissance 4] player : " + badPlayerName);
+
+                // TODO badPlayerName
+
+            }
+        });
+        
+        socket.on("missing_player", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : missing_player");
+
+                // TODO
+
+            }
+        });
+        
+        socket.on("disconnected_player", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : disconnected_player");
+
+                // TODO (pareil y a des params passés jsp sil tu ten serviras) 
+
             }
         });
 
-        socket.on("end_game", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : " + "end_game");
-            }
-        });
+        // socket.on("waiting_move", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : waiting_move");
+        //     }
+        // });
 
-        socket.on("message", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : " + "message");
-            }
-        });
+        // socket.on("start_game", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : " + "start_game");
+        //     }
+        // });
 
-        socket.on("game_status", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : " + "game_status");
-            }
-        });
+        // socket.on("end_game", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : " + "end_game");
+        //     }
+        // });
 
-        socket.on("stop_game", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : " + "stop_game");
-            }
-        });
+        // socket.on("message", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : " + "message");
+        //     }
+        // });
 
-        socket.on("disconnect", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] Received : " + "game_status");
-            }
-        });
+        // socket.on("game_status", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : " + "game_status");
+        //     }
+        // });
+
+        // socket.on("stop_game", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : " + "stop_game");
+        //     }
+        // });
+
+        // socket.on("disconnect", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : " + "game_status");
+        //     }
+        // });
 
         socket.connect();
         this.socket = socket;
     }
 
     public boolean play(String pseudo){
-        System.out.println("[Puissance 4] Emit : " + "connect_player");
+        System.out.println("[Puissance 4] [Emit] : " + "connect_player");
         socket.emit("connect_player", pseudo);
         return true;
     }
 
     public boolean move(JSONObject request){
         try{
-            System.out.println("[Puissance 4] Emit : " + "new_move");
+            System.out.println("[Puissance 4] [Emit] : " + "new_move");
             socket.emit("new_move", request);
         }
         catch(Exception e){
@@ -105,6 +223,7 @@ public class WosSocket {
     }
 
     public void disconnect(){
+        System.out.println("[Puissance 4] [Disconnect]" );
         socket.disconnect();
     }
 }

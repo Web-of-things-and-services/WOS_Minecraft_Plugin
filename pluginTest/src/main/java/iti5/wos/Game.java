@@ -64,7 +64,7 @@ public class Game {
     }
 
     public CouleurToken pseudoToTokenColor(String pseudo){
-        if(pseudo == this.joueur.getName()){
+        if(pseudo.equals(this.joueur.getName())){
             return CouleurToken.JAUNE;
         }else{
             return CouleurToken.ROUGE;
