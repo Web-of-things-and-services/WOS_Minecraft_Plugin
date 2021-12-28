@@ -5,6 +5,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 import java.net.URISyntaxException;
+import org.json.simple.JSONObject;
 
 public class WosSocket {
     private Socket socket;
@@ -16,6 +17,7 @@ public class WosSocket {
         socket.on("new_move", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
+                System.out.println("[Puissance 4] Received : new_move");
                 game.movePlayed(
                     Integer.parseInt((String) args[0]), // Column Num
                         (String) args[1] // Pseudo player
@@ -26,49 +28,49 @@ public class WosSocket {
         socket.on("waiting_move", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "waiting_move");
+                System.out.println("[Puissance 4] Received : waiting_move");
             }
         });
 
         socket.on("start_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "start_game");
+                System.out.println("[Puissance 4] Received : " + "start_game");
             }
         });
 
         socket.on("end_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "end_game");
+                System.out.println("[Puissance 4] Received : " + "end_game");
             }
         });
 
         socket.on("message", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "message");
+                System.out.println("[Puissance 4] Received : " + "message");
             }
         });
 
         socket.on("game_status", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "game_status");
+                System.out.println("[Puissance 4] Received : " + "game_status");
             }
         });
 
         socket.on("stop_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "stop_game");
+                System.out.println("[Puissance 4] Received : " + "stop_game");
             }
         });
 
         socket.on("disconnect", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("[Puissance 4] " + "game_status");
+                System.out.println("[Puissance 4] Received : " + "game_status");
             }
         });
 
@@ -77,13 +79,15 @@ public class WosSocket {
     }
 
     public boolean play(String pseudo){
+        System.out.println("[Puissance 4] Emit : " + "connect_player");
         socket.emit("connect_player", pseudo);
         return true;
     }
 
-    public boolean move(int column){
+    public boolean move(JSONObject request){
         try{
-            socket.emit("new_move", ""+column);
+            System.out.println("[Puissance 4] Emit : " + "new_move");
+            socket.emit("new_move", request);
         }
         catch(Exception e){
             System.out.println("[Puissance 4] " + e);

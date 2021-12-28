@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.net.URISyntaxException;
+import org.json.simple.JSONObject;
 
 
 
@@ -49,8 +50,12 @@ public class Game {
         return true;
     }
 
-    public boolean move(int column){
-        wSocket.move(column);
+    public boolean move(Integer column, String pseudo){
+        JSONObject request = new JSONObject();
+        request.put("column", column.toString());
+        request.put("name", pseudo);
+
+        wSocket.move(request);
         return true;
     }
 

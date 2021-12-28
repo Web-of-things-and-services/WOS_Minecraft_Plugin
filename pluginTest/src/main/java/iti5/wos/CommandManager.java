@@ -33,7 +33,7 @@ public class CommandManager implements CommandExecutor {
                         System.out.println("[Puissance 4] " + args[1]);
                         try{
                             int column = Integer.parseInt(args[1]);
-                            game.move(column);
+                            game.move(column, sender.getName());
                         }catch( NumberFormatException e){
                             return false;
                         }
