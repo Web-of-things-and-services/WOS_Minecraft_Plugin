@@ -26,49 +26,49 @@ public class WosSocket {
         socket.on("waiting_move", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("waiting_move");
+                System.out.println("[Puissance 4] " + "waiting_move");
             }
         });
 
         socket.on("start_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("start_game");
+                System.out.println("[Puissance 4] " + "start_game");
             }
         });
 
         socket.on("end_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("end_game");
+                System.out.println("[Puissance 4] " + "end_game");
             }
         });
 
         socket.on("message", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("message");
+                System.out.println("[Puissance 4] " + "message");
             }
         });
 
         socket.on("game_status", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("game_status");
+                System.out.println("[Puissance 4] " + "game_status");
             }
         });
 
         socket.on("stop_game", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("stop_game");
+                System.out.println("[Puissance 4] " + "stop_game");
             }
         });
 
         socket.on("disconnect", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
-                System.out.println("game_status");
+                System.out.println("[Puissance 4] " + "game_status");
             }
         });
 
@@ -77,7 +77,7 @@ public class WosSocket {
     }
 
     public boolean play(String pseudo){
-        socket.emit("play", pseudo);
+        socket.emit("connect_player", pseudo);
         return true;
     }
 
@@ -86,7 +86,7 @@ public class WosSocket {
             socket.emit("new_move", ""+column);
         }
         catch(Exception e){
-            System.out.println(e);
+            System.out.println("[Puissance 4] " + e);
         }
         return true;
     }

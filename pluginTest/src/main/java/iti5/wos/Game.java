@@ -6,12 +6,16 @@ import org.bukkit.entity.Player;
 
 import java.net.URISyntaxException;
 
+
+
 public class Game {
     private Player joueur = null;
     private static Game game = null;
     private Location playerPositionInGame = new Location(Bukkit.getServer().getWorld("World"), 0, 180, 0);
     private Board board = new Board(playerPositionInGame.add(0,0,-9));
     private WosSocket wSocket;
+    // final String SERVER_ADRESS = "http://192.168.1.10:24856";
+    final String SERVER_ADRESS = "http://localhost:8888";
 
     public static Game getGame() throws URISyntaxException {
         if(game == null){
@@ -24,7 +28,8 @@ public class Game {
     }
 
     public Game() throws URISyntaxException {
-        this.wSocket = new WosSocket("http://192.168.1.10:24856", this);
+        this.wSocket = new WosSocket(SERVER_ADRESS, this);
+        System.out.println("[Puissance 4] Connection a " + SERVER_ADRESS);
     }
 
     public WosSocket getSocket() {
@@ -67,5 +72,32 @@ public class Game {
 
     public void initPlayer(Player player){
         player.teleport(this.playerPositionInGame);
+    }
+
+    public boolean changeAddress(String address) {
+        if(address == null)
+            address = "http://localhost:8888";
+        else {
+            switch (address) {
+                case "local":
+                    address = "http://localhost:8888";
+                    break;
+                case "rasp":
+                    address = "http://192.168.1.10:24856";
+                    break;
+                default:
+                    break;
+            }
+        }
+        try {
+            this.wSocket.disconnect();
+            this.wSocket = new WosSocket(address, this);
+            System.out.println("[Puissance 4] Connection a " + address);
+            return true;
+        } catch (Exception e) {
+            System.out.println("[Puissance 4] error creation socket");
+            e.printStackTrace();
+        }
+        return false;
     }
 }

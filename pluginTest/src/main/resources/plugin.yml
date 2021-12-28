@@ -18,3 +18,7 @@ commands:
     description: Permet de jouer un coup
     usage: /wos move
     permission: wos.puissance.move
+  wos address:
+    description: Permet de changer l'adresse de connexion du serveur
+    usage: "/wos address [local / rasp / adresse]\n - local : localhost\n - rasp : adresse de la raspberry\n - adresse : url de l'adresse"
+    permission: wos.puissance.address
