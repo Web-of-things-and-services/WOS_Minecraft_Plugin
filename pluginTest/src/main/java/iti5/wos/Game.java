@@ -60,7 +60,7 @@ public class Game {
     }
 
     public void movePlayed(int column, String pseudo){
-        this.board.addToken(column,pseudoToTokenColor(pseudo));
+        this.board.addToken(column, pseudoToTokenColor(pseudo));
     }
 
     public CouleurToken pseudoToTokenColor(String pseudo){

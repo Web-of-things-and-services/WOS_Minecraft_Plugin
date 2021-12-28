@@ -6,6 +6,7 @@ import io.socket.emitter.Emitter;
 
 import java.net.URISyntaxException;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class WosSocket {
     private Socket socket;
@@ -18,10 +19,18 @@ public class WosSocket {
             @Override
             public void call(Object... args) {
                 System.out.println("[Puissance 4] Received : new_move");
-                game.movePlayed(
-                    Integer.parseInt((String) args[0]), // Column Num
-                        (String) args[1] // Pseudo player
-                );
+                String data = args[0].toString();
+                try {
+                    JSONParser parser = new JSONParser();
+                    JSONObject jsonObject = (JSONObject) parser.parse(data);
+                    System.out.println("[Puissance 4] board : " + jsonObject);
+                    game.movePlayed(
+                        Integer.parseInt((String) jsonObject.get("column")), // Column Num
+                            (String) jsonObject.get("name") // Pseudo player
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

@@ -93,6 +93,7 @@ public class Board {
         List<CouleurToken> col = this.getColumn(columnNumber);
         if(col.size() < this.getRowCount()){
             col.add(couleur);
+            System.out.println("[Puissance 4] ajout couleur " + couleur + " en colonne " + columnNumber);
         }
     }
 
