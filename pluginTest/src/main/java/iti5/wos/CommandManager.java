@@ -21,25 +21,34 @@ public class CommandManager implements CommandExecutor {
             switch (args[0]){
                 case "play":
                     if(sender instanceof Player){
-                        System.out.println(sender.getName() + " se conencte au serveur wos");
+                        System.out.println("[Puissance 4] " + sender.getName() + " se conencte au serveur wos");
                         return game.play((Player)sender);
                     }else{
-                        System.out.println(sender.getName() + " Erreur, le joueur n'est pas un joueur");
+                        System.out.println("[Puissance 4] " + sender.getName() + " Erreur, le joueur n'est pas un joueur");
                         return false;
                     }
                 case "move":
-                    System.out.println(sender.getName() + " veut jouer un coup");
+                    System.out.println("[Puissance 4] " + sender.getName() + " veut jouer un coup");
                     if(args[1] != null){
-                        System.out.println(args[1]);
+                        System.out.println("[Puissance 4] " + args[1]);
                         try{
                             int column = Integer.parseInt(args[1]);
-                            game.move(column);
+                            game.move(column, sender.getName());
                         }catch( NumberFormatException e){
                             return false;
                         }
                         return true;
                     }
                     return false;
+                    
+                case "address":
+                    if(sender instanceof Player){
+                        System.out.println("[Puissance 4] " + sender.getName() + " veut changer l'adresse sur " + args[1]);
+                        return game.changeAddress(args[1]);
+                    }else{
+                        System.out.println("[Puissance 4] " + sender.getName() + " Erreur, le joueur n'est pas un joueur");
+                        return false;
+                    }
                 default:
                     return false;
             }
