@@ -3,6 +3,7 @@ package iti5.wos;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
 
 import java.net.URISyntaxException;
 import org.json.simple.JSONObject;
@@ -109,5 +110,14 @@ public class Game {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void end(String winnerName) {
+        String message;
+        if(winnerName.equals("nobody")) message = "Partie terminée, mais aucun gagnant !";
+        else if(winnerName.equals(joueur.getName())) message = "Partie terminée, VOUS AVEZ GAGNÉ !!!";
+        else message = "Partie terminée, vous avez perdu.";
+
+        joueur.sendMessage(ChatColor.RED + "[Puissance 4] " + ChatColor.GOLD + message);
     }
 }
