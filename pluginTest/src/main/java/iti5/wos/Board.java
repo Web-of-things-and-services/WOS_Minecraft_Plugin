@@ -84,13 +84,13 @@ public class Board {
     }
 
     public void resetBoard(){
+        // System.out.println("RESEEEEEEET");
         this.columnList = new ArrayList<List<CouleurToken>>();
         for (int i = 0; i < this.columnCount; i++){
             this.columnList.add(new LinkedList<CouleurToken>());
         }
-        // this.columnList.get(5).add(CouleurToken.ROUGE);
-        // this.columnList.get(5).add(CouleurToken.JAUNE);
-        // this.columnList.get(5).add(CouleurToken.ROUGE);
+        // System.out.println(getColumnList());
+        renderReset();
     }
 
     public void addToken(int columnNumber, CouleurToken couleur){
@@ -121,6 +121,21 @@ public class Board {
             block = block.getRelative(dx, dy, dz);
         }
         return block;
+    }
+
+    
+    // Vider le plateau de jeu
+    public void renderReset(){
+        Board b = this;
+        new BukkitRunnable() {
+            public void run() {
+                Block block = b.getLocation().getBlock();
+                for (int i = 0; i < getColumnCount(); i++) {
+                    placeLine(block, 0, 1, 0, getRowCount(), Material.AIR);
+                    block = block.getRelative(b.getStepX(), 0, b.getStepZ());
+                }
+            }
+        }.runTask(Bukkit.getPluginManager().getPlugin("WOS"));
     }
 
     // la platforme
@@ -161,19 +176,19 @@ public class Board {
     }
 
     public void renderAll(){
-        System.out.println("[Puissance 4] rendering ...");
+        // System.out.println("[Puissance 4] rendering ...");
         Board b = this;
-        System.out.println("b.getLocation() : " + b.getLocation());
-        System.out.println("b.getRowCount() : " + b.getRowCount());
+        // System.out.println("b.getLocation() : " + b.getLocation());
+        // System.out.println("b.getRowCount() : " + b.getRowCount());
         new BukkitRunnable() {
             public void run() {
                 Block bottomBlock = b.getLocation().getBlock();
                 for(int i = 0; i < b.getColumnCount(); i++){
-                    System.out.println("i = " + i);
+                    // System.out.println("i = " + i);
                     List<CouleurToken> col = b.getColumn(i);
                     Block blockInCol = bottomBlock;
                     for (CouleurToken color : col){
-                        System.out.println("on place le bloc " + blockInCol.getLocation() + " en " + color);
+                        // System.out.println("on place le bloc " + blockInCol.getLocation() + " en " + color);
                         blockInCol.setType(b.getCouleurTokenToBlock(color));
                         blockInCol = blockInCol.getRelative(0,1,0);
                     }
@@ -183,7 +198,7 @@ public class Board {
         }.runTask(Bukkit.getPluginManager().getPlugin("WOS"));
         
         
-        System.out.println("[Puissance 4] rendered");
+        // System.out.println("[Puissance 4] rendered");
     }
 
 }

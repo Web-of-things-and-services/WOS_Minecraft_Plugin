@@ -51,21 +51,21 @@ public class WosSocket {
             @Override
             public void call(Object... args) {
                 System.out.println("[Puissance 4] [Received] : start_game");
-
+                game.reset();
                 // TODO y a des choses passés en param mais ils servent à R ?
 
             }
         });
 
-        socket.on("start_game_error", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("[Puissance 4] [Received] : start_game_error");
+        // socket.on("start_game_error", new Emitter.Listener(){
+        //     @Override
+        //     public void call(Object... args) {
+        //         System.out.println("[Puissance 4] [Received] : start_game_error");
 
-                // TODO y a des choses passés en param mais ils servent à R ?
+        //         // TODO y a des choses passés en param mais ils servent à R ?
 
-            }
-        });
+        //     }
+        // });
         
         // socket.on("init_game_after_reset", new Emitter.Listener(){
         //     @Override
@@ -148,6 +148,7 @@ public class WosSocket {
             public void call(Object... args) {
                 System.out.println("[Puissance 4] [Received] : stop_game");
 
+                game.reset();
                 // TODO (pareil y a des params passés jsp sil tu ten serviras) 
 
             }

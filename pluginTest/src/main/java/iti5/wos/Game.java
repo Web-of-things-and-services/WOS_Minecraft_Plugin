@@ -80,6 +80,10 @@ public class Game {
         player.teleport(this.playerPositionInGame);
     }
 
+    public void reset(){
+        board.resetBoard();
+    }
+
     public boolean changeAddress(String address) {
         if(address == null)
             address = "http://localhost:8888";
