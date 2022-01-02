@@ -25,10 +25,20 @@ public class WosSocket {
                     JSONParser parser = new JSONParser();
                     JSONObject jsonObject = (JSONObject) parser.parse(data);
                     System.out.println("[Puissance 4] board : " + jsonObject);
-                    game.movePlayed(
-                        Integer.parseInt((String) jsonObject.get("column")), // Column Num
+                    System.out.println("Column : " + jsonObject.get("column"));
+                    try {
+                        game.movePlayed(
+                            Integer.parseInt((String) jsonObject.get("column")), // Column Num
+                                (String) jsonObject.get("name") // Pseudo player
+                        );
+                    } catch (java.lang.ClassCastException e) {
+                        Long val = (Long) jsonObject.get("column");
+                        int valint = val.intValue();
+                        game.movePlayed(
+                            valint, // Column Num
                             (String) jsonObject.get("name") // Pseudo player
-                    );
+                        );
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -46,6 +56,17 @@ public class WosSocket {
             }
         });
 
+        socket.on("alien_client", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : alien_client");
+
+                // TODO reçois le status de la partie
+                game.message(args[0] + " a essayé de rejoindre la partie alors qu'il y a déjà deux joueurs.");
+
+            }
+        });
+
         
         socket.on("start_game", new Emitter.Listener(){
             @Override
@@ -53,6 +74,16 @@ public class WosSocket {
                 System.out.println("[Puissance 4] [Received] : start_game");
                 game.reset();
                 // TODO y a des choses passés en param mais ils servent à R ?
+
+                game.message("Démarrage de la partie !!");
+                try {
+                    String data = args[0].toString();
+                    JSONParser parser = new JSONParser();
+                    JSONObject jsonObject = (JSONObject) parser.parse(data);
+                    game.message("C'est à " + jsonObject.get("nextPlayer")  + " de commencer.");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -93,6 +124,8 @@ public class WosSocket {
                 System.out.println("[Puissance 4] name : " + playerName);
 
                 // TODO playerName
+                
+                game.message("Connection dans la partie de " + playerName);
 
             }
         });
@@ -105,6 +138,7 @@ public class WosSocket {
                 System.out.println("[Puissance 4] name : " + playerName);
 
                 // TODO playerName
+                game.message("C'est au tour de " + playerName);
 
             }
         });
@@ -131,6 +165,30 @@ public class WosSocket {
                 System.out.println("[Puissance 4] player : " + badPlayerName);
 
                 // TODO badPlayerName
+                game.message("Ce n'est pas à " + badPlayerName + " de jouer !");
+
+            }
+        });
+
+        
+        
+        socket.on("bad_move", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("[Puissance 4] [Received] : bad_move");
+                // String playerName = args[0].toString();
+                // System.out.println("[Puissance 4] player : " + playerName);
+
+                // TODO badPlayerName
+
+                try {
+                    String data = args[0].toString();
+                    JSONParser parser = new JSONParser();
+                    JSONObject jsonObject = (JSONObject) parser.parse(data);
+                    game.message("Erreur de " + jsonObject.get("faultyPlayer") + " : " + jsonObject.get("error"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -152,6 +210,7 @@ public class WosSocket {
 
                 game.reset();
                 // TODO (pareil y a des params passés jsp sil tu ten serviras) 
+                game.message("Partie arrêtée :(");
 
             }
         });

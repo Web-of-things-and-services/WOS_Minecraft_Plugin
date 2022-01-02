@@ -118,6 +118,10 @@ public class Game {
         else if(winnerName.equals(joueur.getName())) message = "Partie terminée, VOUS AVEZ GAGNÉ !!!";
         else message = "Partie terminée, vous avez perdu.";
 
+        this.message(message);
+    }
+
+    public void message(String message) {
         joueur.sendMessage(ChatColor.RED + "[Puissance 4] " + ChatColor.GOLD + message);
     }
 }
