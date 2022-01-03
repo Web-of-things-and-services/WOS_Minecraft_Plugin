@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import org.json.simple.JSONObject;
 
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 public class Game {
     private Player joueur = null;
@@ -16,8 +18,8 @@ public class Game {
     private Location playerPositionInGame = new Location(Bukkit.getServer().getWorld("World"), 0, 180, 0);
     private Board board = new Board(playerPositionInGame.add(0,0,-9));
     private WosSocket wSocket;
-    // final String SERVER_ADRESS = "http://192.168.1.10:24856";
-    final String SERVER_ADRESS = "http://localhost:8888";
+    // final String serverAddress = "http://192.168.1.10:24856";
+    private String serverAddress = "http://localhost:8888";
 
     public static Game getGame() throws URISyntaxException {
         if(game == null){
@@ -30,27 +32,49 @@ public class Game {
     }
 
     public Game() throws URISyntaxException {
-        this.wSocket = new WosSocket(SERVER_ADRESS, this);
-        System.out.println("[Puissance 4] Connection a " + SERVER_ADRESS);
+        this.wSocket = new WosSocket(serverAddress, this);
+        System.out.println("[Puissance 4] Connection a " + serverAddress);
     }
 
     public WosSocket getSocket() {
         return this.wSocket;
     }
 
-    public boolean canPlay(){
-        return this.joueur == null;
-    }
+    // public boolean canPlay(){
+    //     return this.joueur == null;
+    // }
 
     public boolean play(Player player){
+        // if(!this.canPlay())
+        //     return false;
+        // this.joueur = player;
+        // this.initPlayer(player);
+        // board.renderStaticElements();
+        // return true;
+        createSocket(serverAddress);
         wSocket.play(player.getName());
-        if(!this.canPlay())
-            return false;
         this.joueur = player;
         this.initPlayer(player);
         board.renderStaticElements();
+        // wSocket.gameStatus();
         return true;
     }
+
+    // public void editGame(Boolean gameStarted, String nextPlayer, JSONArray jsonBoard){
+    //     if(gameStarted){
+    //         JSONObject jsonObject;
+    //         Integer column;
+    //         String pseudo;
+    //         for (int i = 0; i < jsonBoard.size(); i++) {
+    //             jsonObject = (JSONObject) jsonBoard.get(i);
+    //             column = Integer.parseInt((String) jsonObject.get("column"));
+    //             pseudo = (String) jsonObject.get("name");
+    //             move(column, pseudo);
+    //         }
+    //         message("Partie déjà commencée !");
+    //         message("C'est à " + nextPlayer + " de jouer.");
+    //     }
+    // }
 
     public boolean move(Integer column, String pseudo){
         JSONObject request = new JSONObject();
@@ -100,17 +124,23 @@ public class Game {
                     break;
             }
         }
+        return createSocket(address);
+    }
+
+    private boolean createSocket(String address){
         try {
             this.wSocket.disconnect();
             this.wSocket = new WosSocket(address, this);
             System.out.println("[Puissance 4] Connection a " + address);
+            this.serverAddress = address;
             return true;
         } catch (Exception e) {
             System.out.println("[Puissance 4] error creation socket");
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
+
 
     public void end(String winnerName) {
         String message;

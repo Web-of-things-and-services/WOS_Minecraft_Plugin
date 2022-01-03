@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 
+import java.util.Arrays;
+
 public class WosSocket {
     private Socket socket;
     private Game game;
@@ -53,6 +55,23 @@ public class WosSocket {
 
                 // TODO reçois le status de la partie
 
+                // try {
+                //     String data = args[0].toString();
+                //     System.out.println(data);
+                //     JSONParser parser = new JSONParser();
+                //     JSONObject jsonObject = (JSONObject) parser.parse(data);
+                //     Boolean gameStarted = (Boolean) jsonObject.get("gameStarted");
+                //     String nextPlayer = (String) jsonObject.get("nextPlayer");
+                //     JSONArray jsonBoard = (JSONArray) jsonObject.get("listMovesPlayed"); 
+                //     // JSONObject a = (JSONObject) jsonBoard.get(0);
+                //     // System.out.println(" ffzeokf");
+                //     // System.out.println(a);
+                //     // Object jsonBoard = jsonObject.get("board");
+                //     System.out.println(jsonBoard);
+                //     game.editGame(gameStarted, nextPlayer, jsonBoard);
+                // } catch (Exception e) {
+                //     e.printStackTrace();
+                // }
             }
         });
 
@@ -125,7 +144,7 @@ public class WosSocket {
 
                 // TODO playerName
                 
-                game.message("Connection dans la partie de " + playerName);
+                game.message("Connexion dans la partie de " + playerName);
 
             }
         });
@@ -282,4 +301,10 @@ public class WosSocket {
         System.out.println("[Puissance 4] [Disconnect]" );
         socket.disconnect();
     }
+
+
+    // public void gameStatus(){
+    //     System.out.println("[Puissance 4] [Emit] : game_status");;
+    //     socket.emit("game_status");
+    // }
 }
